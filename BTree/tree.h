@@ -25,5 +25,6 @@ BinaryTree* NodeFind2(BinaryTree *Root, elem_t value);
 TreeErrors TreeTraversal(BinaryTree *Node);
 TreeErrors InsertNodeLoop(BinaryTree **Root, elem_t value);
 TreeErrors InsertNodeLoop2(BinaryTree **Root, elem_t value);
+TreeErrors DeleteNode(BinaryTree **Root, elem_t value);
 
 #endif // _HTREE

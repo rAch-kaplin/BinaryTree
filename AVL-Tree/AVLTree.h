@@ -34,6 +34,7 @@ int GetBalanceFactor(AVLTree* Node);
 TreeErrors UpdateHeight(AVLTree* Node);
 TreeErrors RightRotate(AVLTree **Root);
 TreeErrors LeftRotate(AVLTree **Root);
+TreeErrors DeleteNode(AVLTree **Root, elem_t value);
 
 TreeErrors TreeDumpDot(AVLTree* Root);
 int GenerateGraph(AVLTree *Node, char* buffer, int* buffer_len, const size_t BUFFER_SIZE);

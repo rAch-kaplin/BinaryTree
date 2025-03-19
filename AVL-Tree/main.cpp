@@ -25,7 +25,10 @@ int main()
     InsertNode(&Root, 40);
     InsertNode(&Root, 50);
     InsertNode(&Root, 60);
+    InsertNode(&Root, 70);
 
+    TreeDumpDot(Root);
+    DeleteNode(&Root, 60);
     TreeDumpDot(Root);
 
     TreeTraversal(Root);

@@ -1,5 +1,7 @@
 #include "AVLTree.h"
 
+//TODO: написать функцию удаления элемента для обоих деревьев
+
 TreeErrors CreateNode(AVLTree** Node, elem_t value)
 {
     *Node = (AVLTree*)calloc(1, sizeof(AVLTree));
@@ -126,6 +128,58 @@ TreeErrors InsertNode(AVLTree **Root, elem_t value)
         TreeErrors err = RightRotate(&((*Root)->right));
         if (err != OK) return err;
         return LeftRotate(Root);
+    }
+
+    return OK;
+}
+
+TreeErrors DeleteNode(AVLTree **Root, elem_t value)
+{
+    if (*Root == nullptr)   return NODE_NULLPTR;
+
+
+    if      (value < (*Root)->value)  return DeleteNode(&((*Root)->left),  value);
+    else if (value > (*Root)->value)  return DeleteNode(&((*Root)->right), value);
+
+    else
+    {
+        if ((*Root)->left == nullptr)
+        {
+            AVLTree *temp = *Root;
+            *Root = (*Root)->right;
+            free(temp);
+            temp = nullptr;
+        }
+        else if ((*Root)->right == nullptr)
+        {
+            AVLTree *temp = *Root;
+            *Root = (*Root)->left;
+            free(temp);
+            temp = nullptr;
+        }
+        else
+        {
+            AVLTree *minNode = (*Root)->right;
+            while (minNode->left != nullptr)
+            {
+                minNode = minNode->left;
+            }
+
+            (*Root)->value = minNode->value;
+            return DeleteNode(&((*Root)->right), minNode->value);
+        }
+    #if 0
+        else
+        {
+            AVLTree *maxNode = (*Root)->left;
+            while (maxNode->right != nullptr)
+            {
+                maxNode = maxNode->right;
+            }
+            (*Root)->value = maxNode->value;
+            return DeleteNode(&((*Root)->left), maxNode->value);
+        }
+    #endif
     }
 
     return OK;

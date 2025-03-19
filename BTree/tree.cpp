@@ -188,6 +188,58 @@ TreeErrors TreeTraversal(BinaryTree *Node)
     return OK;
 }
 
+TreeErrors DeleteNode(BinaryTree **Root, elem_t value)
+{
+    if (*Root == nullptr)   return NODE_NULLPTR;
+
+
+    if      (value < (*Root)->value)  return DeleteNode(&((*Root)->left),  value);
+    else if (value > (*Root)->value)  return DeleteNode(&((*Root)->right), value);
+
+    else
+    {
+        if ((*Root)->left == nullptr)
+        {
+            BinaryTree *temp = *Root;
+            *Root = (*Root)->right;
+            free(temp);
+            temp = nullptr;
+        }
+        else if ((*Root)->right == nullptr)
+        {
+            BinaryTree *temp = *Root;
+            *Root = (*Root)->left;
+            free(temp);
+            temp = nullptr;
+        }
+        else
+        {
+            BinaryTree *minNode = (*Root)->right;
+            while (minNode->left != nullptr)
+            {
+                minNode = minNode->left;
+            }
+
+            (*Root)->value = minNode->value;
+            return DeleteNode(&((*Root)->right), minNode->value);
+        }
+    #if 0
+        else
+        {
+            BinaryTree *maxNode = (*Root)->left;
+            while (maxNode->right != nullptr)
+            {
+                maxNode = maxNode->right;
+            }
+            (*Root)->value = maxNode->value;
+            return DeleteNode(&((*Root)->left), maxNode->value);
+        }
+    #endif
+    }
+
+    return OK;
+}
+
 //char *str = nullptr;
 //scanf("%m[^\n]", &str);
 // ...

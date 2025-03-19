@@ -55,7 +55,7 @@ int GenerateGraph(AVLTree *Node, char* buffer, int* buffer_len, const size_t BUF
 
     *buffer_len += snprintf(buffer + *buffer_len, BUFFER_SIZE - (size_t)*buffer_len,
                             "\tnode%p [shape=plaintext; style=filled; color=\"#fcf0d2\"; label = <\n"
-                            "\t\t         <table BORDER=\"0\" CELLBORDER=\"1\" CELLSPACING=\"0\" CELLPADDING=\"5\" BGCOLOR=\"#bfb58f\" COLOR=\"#4d3d03\">\n"
+                            "\t\t         <table BORDER=\"0\" CELLBORDER=\"1\" CELLSPACING=\"0\" CELLPADDING=\"6\" BGCOLOR=\"#bfb58f\" COLOR=\"#4d3d03\">\n"
                             "\t\t\t           <tr><td align='center' colspan='2'><FONT COLOR='#3a3a3a'><b>Node: %p</b></FONT></td></tr>\n"
                             "\t\t\t           <tr><td align='center' colspan='2'><FONT COLOR='#4d3d03'>Value: <b>%03d</b></FONT></td></tr>\n"
                             "\t\t\t           <tr><td align='center' colspan='2'><FONT COLOR='#4d3d03'>Height: <b>%03d</b></FONT></td></tr>\n"
