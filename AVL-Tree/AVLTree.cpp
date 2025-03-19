@@ -1,7 +1,5 @@
 #include "AVLTree.h"
 
-//TODO: написать функцию удаления элемента для обоих деревьев
-
 TreeErrors CreateNode(AVLTree** Node, elem_t value)
 {
     *Node = (AVLTree*)calloc(1, sizeof(AVLTree));
@@ -53,8 +51,10 @@ TreeErrors RightRotate(AVLTree **Root)
     if ((*Root) == nullptr || (*Root)->left == nullptr) return NODE_NULLPTR;
 
     AVLTree *NewRoot = (*Root)->left;
-    (*Root)->left = NewRoot->right;
+    AVLTree *temp = NewRoot->right;
+
     NewRoot->right = *Root;
+    (*Root)->left = temp;
 
     UpdateHeight(*Root);
     UpdateHeight(NewRoot);
@@ -69,8 +69,10 @@ TreeErrors LeftRotate(AVLTree **Root)
     if ((*Root) == nullptr || (*Root)->right == nullptr) return NODE_NULLPTR;
 
     AVLTree *NewRoot = (*Root)->right;
-    (*Root)->right = NewRoot->left;
+    AVLTree *temp = NewRoot->left;
+
     NewRoot->left = *Root;
+    (*Root)->right = temp;
 
     UpdateHeight(*Root);
     UpdateHeight(NewRoot);
@@ -143,17 +145,10 @@ TreeErrors DeleteNode(AVLTree **Root, elem_t value)
 
     else
     {
-        if ((*Root)->left == nullptr)
+        if ((*Root)->left == nullptr || (*Root)->right == nullptr)
         {
             AVLTree *temp = *Root;
-            *Root = (*Root)->right;
-            free(temp);
-            temp = nullptr;
-        }
-        else if ((*Root)->right == nullptr)
-        {
-            AVLTree *temp = *Root;
-            *Root = (*Root)->left;
+            *Root = (*Root)->left ? (*Root)->left : (*Root)->right;
             free(temp);
             temp = nullptr;
         }
@@ -180,6 +175,29 @@ TreeErrors DeleteNode(AVLTree **Root, elem_t value)
             return DeleteNode(&((*Root)->left), maxNode->value);
         }
     #endif
+    }
+
+    if (*Root == nullptr)   return OK;
+
+    UpdateHeight(*Root);
+    int balance = GetBalanceFactor(*Root);
+
+    if (balance > 1 && GetBalanceFactor((*Root)->left) >= 0)
+        return RightRotate(Root);
+
+    if (balance > 1 && GetBalanceFactor((*Root)->left) < 0)
+    {
+        LeftRotate(&((*Root)->left));
+        return RightRotate(Root);
+    }
+
+    if (balance < -1 && GetBalanceFactor((*Root)->right) <= 0)
+        return LeftRotate(Root);
+
+    if (balance < -1 && GetBalanceFactor((*Root)->right) > 0)
+    {
+        RightRotate(&((*Root)->right));
+        return LeftRotate(Root);
     }
 
     return OK;

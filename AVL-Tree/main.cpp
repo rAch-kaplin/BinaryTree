@@ -8,10 +8,10 @@ int main()
 {
     AVLTree *Root = nullptr;
 
-    // for (int i = 0; i < 5; i++)
-    // {
-    //     InsertNode(&Root, i);
-    // }
+    for (int i = 1; i <= 7; i++)
+    {
+        InsertNode(&Root, i * 10);
+    }
     // InsertNode(&Root, 50);
     // InsertNode(&Root, 30);
     // InsertNode(&Root, 70);
@@ -19,16 +19,10 @@ int main()
     // InsertNode(&Root, 10);
     // InsertNode(&Root, 80);
 
-    InsertNode(&Root, 10);
-    InsertNode(&Root, 20);
-    InsertNode(&Root, 30);
-    InsertNode(&Root, 40);
-    InsertNode(&Root, 50);
-    InsertNode(&Root, 60);
-    InsertNode(&Root, 70);
-
     TreeDumpDot(Root);
     DeleteNode(&Root, 60);
+    DeleteNode(&Root, 70);
+    DeleteNode(&Root, 50);
     TreeDumpDot(Root);
 
     TreeTraversal(Root);
