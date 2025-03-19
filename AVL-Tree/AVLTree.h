@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "../../logger/logger.h"
+
 typedef int elem_t;
 
 typedef struct AVLTree

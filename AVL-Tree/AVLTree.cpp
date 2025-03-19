@@ -33,7 +33,7 @@ int GetHeight(AVLTree* Node)
 
 int GetBalanceFactor(AVLTree* Node)
 {
-    return Node ? GetHeight(Node->left) - GetHeight(Node->right) : 0;
+    return Node ? GetHeight(Node->left) - GetHeight(Node->right) : -1;
 }
 
 TreeErrors UpdateHeight(AVLTree* Node)
@@ -139,9 +139,16 @@ TreeErrors DeleteNode(AVLTree **Root, elem_t value)
 {
     if (*Root == nullptr)   return NODE_NULLPTR;
 
-
-    if      (value < (*Root)->value)  return DeleteNode(&((*Root)->left),  value);
-    else if (value > (*Root)->value)  return DeleteNode(&((*Root)->right), value);
+    if (value < (*Root)->value)
+    {
+        TreeErrors err = DeleteNode(&((*Root)->left), value);
+        if (err != OK) return err;
+    }
+    else if (value > (*Root)->value)
+    {
+        TreeErrors err = DeleteNode(&((*Root)->right), value);
+        if (err != OK) return err;
+    }
 
     else
     {
@@ -176,28 +183,35 @@ TreeErrors DeleteNode(AVLTree **Root, elem_t value)
         }
     #endif
     }
-
     if (*Root == nullptr)   return OK;
 
     UpdateHeight(*Root);
     int balance = GetBalanceFactor(*Root);
 
-    if (balance > 1 && GetBalanceFactor((*Root)->left) >= 0)
-        return RightRotate(Root);
-
-    if (balance > 1 && GetBalanceFactor((*Root)->left) < 0)
+    if (balance > 1)
     {
-        LeftRotate(&((*Root)->left));
-        return RightRotate(Root);
+        if (GetBalanceFactor((*Root)->left) >= 0)
+        {
+            return RightRotate(Root);
+        }
+        else
+        {
+            LeftRotate(&((*Root)->left));
+            return RightRotate(Root);
+        }
     }
 
-    if (balance < -1 && GetBalanceFactor((*Root)->right) <= 0)
-        return LeftRotate(Root);
-
-    if (balance < -1 && GetBalanceFactor((*Root)->right) > 0)
+    if (balance < -1)
     {
-        RightRotate(&((*Root)->right));
-        return LeftRotate(Root);
+        if (GetBalanceFactor((*Root)->right) <= 0)
+        {
+            return LeftRotate(Root);
+        }
+        else
+        {
+            RightRotate(&((*Root)->right));
+            return LeftRotate(Root);
+        }
     }
 
     return OK;
