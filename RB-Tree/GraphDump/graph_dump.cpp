@@ -66,9 +66,9 @@ int GenerateGraph(RBTree *Node, char* buffer, int* buffer_len, const size_t BUFF
                         "\t\t\t           </tr>\n"
                         "\t\t         </table> >];\n",
                         Node,
-                        Node->color == RED ? "#850f00" : "#000000",  // Красный фон для красных узлов, серый для черных
+                        Node->color == RED ? "#850f00" : "#000000",  
                         Node, Node->value,
-                        Node->color == RED ? "#ff0000" : "#000000",  // Цвет текста "Red"/"Black"
+                        Node->color == RED ? "#ff0000" : "#000000",
                         Node->color == RED ? "Red" : "Black",
                         Node->parent, Node->left, Node->right);
 
